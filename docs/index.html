@@ -1,22 +1,39 @@
 <!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>私のWebページ</title>
-</head>
-<body>
-    <header>
-        <h1>私のWebページへようこそ！</h1>
-    </header>
+<html>
+  <head>
+    <title>Google Sheets Data</title>
+  </head>
+  <body>
+    <h1>スプレッドシートのデータ</h1>
+      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vShFObabzOXRvTMHSnHbMGmvDlJtG0wN--K33F0zsMoleAA421L685TwpWHyuldlP_KdDxkfH3TgIee/pubhtml?gid=36362302&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+    <table id="data-table" border="1">
+      <thead>
+        <tr>
+          <th>列1</th>
+          <th>列2</th>
+          <th>列3</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- データがここに表示されます -->
+      </tbody>
+    </table>
 
-    <section>
-        <h2>紹介</h2>
-        <p>これは私の最初のWebページです。HTMLとCSSを使って作成しました！</p>
-    </section>
+    <script>
+      function fetchData() {
+        google.script.run.withSuccessHandler(function(data) {
+          var tableBody = document.getElementById('data-table').getElementsByTagName('tbody')[0];
+          data.forEach(function(row) {
+            var newRow = tableBody.insertRow();
+            row.forEach(function(cellData) {
+              var cell = newRow.insertCell();
+              cell.textContent = cellData;
+            });
+          });
+        }).getSheetData();
+      }
 
-    <footer>
-        <p>&copy; 2025 私のWebページ</p>
-    </footer>
-</body>
+      fetchData();
+    </script>
+  </body>
 </html>
